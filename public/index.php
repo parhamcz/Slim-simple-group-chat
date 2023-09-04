@@ -6,6 +6,7 @@ use Slim\Factory\AppFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../database/DB.php';
+require __DIR__ . '/../models/User.php';
 $app = AppFactory::create();
 
 $app->get('/', function (Request $request, Response $response, $args) {
