@@ -10,12 +10,13 @@ class BaseModel
     {
         $this->db = $db;
         $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->db->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_OBJ);
     }
 
     public function getAll($table)
     {
         $stmt = $this->db->query("SELECT * FROM $table");
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $stmt->fetchAll();
     }
 
     public function create(string $table, array $values)
@@ -26,7 +27,7 @@ class BaseModel
 
             $sql = "INSERT INTO $table ($fields) VALUES ($placeholders)";
 
-            $stmt = $this->prepare($sql);
+            $stmt = $this->db->prepare($sql);
 
             foreach ($values as $key => $value) {
                 $stmt->bindValue(':' . $key, $value);
@@ -51,11 +52,11 @@ class BaseModel
     {
         try {
             $sql = "SELECT * FROM $table WHERE id = :id";
-            $stmt = $this->prepare($sql);
+            $stmt = $this->db->prepare($sql);
             $stmt->bindValue(':id', $id);
             $stmt->execute();
 
-            return $stmt->fetch(\PDO::FETCH_ASSOC);
+            return $stmt->fetch();
         } catch (\PDOException $e) {
             // Handle the error (e.g., log it, display an error message)
             echo 'Error finding record: ' . $e->getMessage();
