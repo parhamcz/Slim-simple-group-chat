@@ -13,12 +13,13 @@ class BaseModel
         $this->db->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_OBJ);
     }
 
-    public function result(bool $status, string $message, $data): array
+    public function result(bool $status, string $message, $data, $code = 200): array
     {
         return [
             'status' => $status,
             'message' => $message,
-            'data' => $data
+            'data' => $data,
+            'status code' => $code
         ];
     }
 
@@ -29,12 +30,15 @@ class BaseModel
             return $this->result(
                 true,
                 'users fetched successfully',
-                $stmt->fetchAll());
+                $stmt->fetchAll()
+            );
         } catch (\PDOException $e) {
             return $this->result(
                 false,
                 'Error in fetching all users',
-                $e->getMessage());
+                $e->getMessage(),
+                500
+            );
         }
 
     }
@@ -62,7 +66,8 @@ class BaseModel
             return $this->result(
                 false,
                 'Insertion Failed',
-                $e->getMessage()
+                $e->getMessage(),
+                500
             );
         }
     }
@@ -83,7 +88,8 @@ class BaseModel
             return $this->result(
                 false,
                 'Error in finding the user',
-                $e->getMessage()
+                $e->getMessage(),
+                500
             );
         }
     }
