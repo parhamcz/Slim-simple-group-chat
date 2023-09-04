@@ -13,10 +13,30 @@ class BaseModel
         $this->db->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_OBJ);
     }
 
+    public function result(bool $status, string $message, $data): array
+    {
+        return [
+            'status' => $status,
+            'message' => $message,
+            'data' => $data
+        ];
+    }
+
     public function getAll($table)
     {
-        $stmt = $this->db->query("SELECT * FROM $table");
-        return $stmt->fetchAll();
+        try {
+            $stmt = $this->db->query("SELECT * FROM $table");
+            return $this->result(
+                true,
+                'users fetched successfully',
+                $stmt->fetchAll());
+        } catch (\PDOException $e) {
+            return $this->result(
+                false,
+                'Error in fetching all users',
+                $e->getMessage());
+        }
+
     }
 
     public function create(string $table, array $values)
@@ -34,17 +54,16 @@ class BaseModel
             }
 
             $stmt->execute();
-            $result = [
-                'status' => true,
-                'message' => 'Insertion Successful'
-            ];
-            return $result;
+            return $this->result(
+                true,
+                'Insertion Successful',
+                '');
         } catch (\PDOException $e) {
-            $result = [
-                'status' => false,
-                'message' => 'Insertion Failed' . $e->getMessage()
-            ];
-            return $result;
+            return $this->result(
+                false,
+                'Insertion Failed',
+                $e->getMessage()
+            );
         }
     }
 
@@ -55,12 +74,17 @@ class BaseModel
             $stmt = $this->db->prepare($sql);
             $stmt->bindValue(':id', $id);
             $stmt->execute();
-
-            return $stmt->fetch();
+            return $this->result(
+                true,
+                'user found successfully',
+                $stmt->fetch()
+            );
         } catch (\PDOException $e) {
-            // Handle the error (e.g., log it, display an error message)
-            echo 'Error finding record: ' . $e->getMessage();
-            return false; // Or handle the error in a way that suits your application
+            return $this->result(
+                false,
+                'Error in finding the user',
+                $e->getMessage()
+            );
         }
     }
 }
