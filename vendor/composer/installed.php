@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => '__root__',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => 'a2d40143f25086fdad4c62f652ed7180d41e3792',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => 'a2d40143f25086fdad4c62f652ed7180d41e3792',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -37,6 +37,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'laminas/laminas-diactoros' => array(
+            'pretty_version' => '3.2.0',
+            'version' => '3.2.0.0',
+            'reference' => 'aca73646e658dce3f079f6b8648c651e193e331e',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../laminas/laminas-diactoros',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'nikic/fast-route' => array(
             'pretty_version' => 'v1.3.0',
             'version' => '1.3.0.0',
@@ -45,6 +54,30 @@
             'install_path' => __DIR__ . '/../nikic/fast-route',
             'aliases' => array(),
             'dev_requirement' => false,
+        ),
+        'nyholm/psr7' => array(
+            'pretty_version' => '1.8.0',
+            'version' => '1.8.0.0',
+            'reference' => '3cb4d163b58589e47b35103e8e5e6a6a475b47be',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../nyholm/psr7',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'nyholm/psr7-server' => array(
+            'pretty_version' => '1.0.2',
+            'version' => '1.0.2.0',
+            'reference' => 'b846a689844cef114e8079d8c80f0afd96745ae3',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../nyholm/psr7-server',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'php-http/message-factory-implementation' => array(
+            'dev_requirement' => false,
+            'provided' => array(
+                0 => '1.0',
+            ),
         ),
         'psr/container' => array(
             'pretty_version' => '2.0.2',
@@ -68,6 +101,7 @@
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0',
+                1 => '^1.1 || ^2.0',
             ),
         ),
         'psr/http-message' => array(
@@ -83,6 +117,7 @@
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0',
+                1 => '^1.1 || ^2.0',
             ),
         ),
         'psr/http-server-handler' => array(
@@ -118,6 +153,15 @@
             'reference' => '120b605dfeb996808c31b6477290a714d356e822',
             'type' => 'library',
             'install_path' => __DIR__ . '/../ralouphie/getallheaders',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'slim/http' => array(
+            'pretty_version' => '1.3',
+            'version' => '1.3.0.0',
+            'reference' => '9542edbe469b7c0f3084c2467efea972387f5beb',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../slim/http',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
