@@ -53,19 +53,42 @@ class UserController extends Controller
                     $data
                 )
             ));
-            return $response->withHeader('Content-Type', 'application/json');
         } catch (\PDOException $e) {
-            $response->getBody()->write(
-                json_encode(
+            $response->getBody()->write(json_encode(
                     $this->result(
                         false,
                         'Error in creatinf user',
                         [],
                         500
                     )
-                )
-            );
-            return $response->withHeader('Content-Type', 'application/json');
+                ));
         }
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public function show(Request $request, Response $response, $args)
+    {
+        try {
+            $db = new DB('sqlite:slim-chatroom.db');
+            $user = new User($db);
+            $data = $user->find('users', $args['id']);
+            $response->getBody()->write(json_encode(
+                    $this->result(
+                        true,
+                        'User fetched successfully',
+                        $data
+                    )
+                ));
+        }catch (\PDOException $exception){
+            $response->getBody()->write(json_encode(
+                    $this->result(
+                        false,
+                        'Error in creatinf user',
+                        [],
+                        500
+                    )
+                ));
+        }
+        return $response->withHeader('Content-Type', 'application/json');
     }
 }
