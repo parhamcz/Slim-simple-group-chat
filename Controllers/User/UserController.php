@@ -28,9 +28,43 @@ class UserController extends Controller
             $response->getBody()->write(($this->result(
                 false,
                 'Error in fetching users',
-                $exception->getMessage(),
+                [],
                 500
             )));
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+    }
+
+    public function create(Request $request, Response $response)
+    {
+        try {
+            $inputs = $request->getParsedBody();
+            $db = new DB('sqlite:slim-chatroom.db');
+            $user = new User($db);
+            $data = [
+                'display_name' => $inputs['username'],
+                'username' => $inputs['display_name']
+            ];
+            $users = $user->create('users', $data);
+            $response->getBody()->write(json_encode(
+                $this->result(
+                    true,
+                    'User created successfully',
+                    $data
+                )
+            ));
+            return $response->withHeader('Content-Type', 'application/json');
+        } catch (\PDOException $e) {
+            $response->getBody()->write(
+                json_encode(
+                    $this->result(
+                        false,
+                        'Error in creatinf user',
+                        [],
+                        500
+                    )
+                )
+            );
             return $response->withHeader('Content-Type', 'application/json');
         }
     }
