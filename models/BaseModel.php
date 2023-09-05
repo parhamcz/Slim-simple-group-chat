@@ -14,7 +14,6 @@ class BaseModel
     }
 
 
-
     public function getAll($table)
     {
         try {
@@ -53,6 +52,19 @@ class BaseModel
             $sql = "SELECT * FROM $table WHERE id = :id";
             $stmt = $this->db->prepare($sql);
             $stmt->bindValue(':id', $id);
+            $stmt->execute();
+            return $stmt->fetch();
+        } catch (\PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function findByCol(string $table, string $field, string|int $value)
+    {
+        try {
+            $sql = "SELECT * FROM $table WHERE $field = :username";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(':username', $value);
             $stmt->execute();
             return $stmt->fetch();
         } catch (\PDOException $e) {
