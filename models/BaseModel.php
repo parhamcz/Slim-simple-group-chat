@@ -29,13 +29,13 @@ class BaseModel
             $stmt = $this->db->query("SELECT * FROM $table");
             return $this->result(
                 true,
-                'users fetched successfully',
+                'Data fetched successfully',
                 $stmt->fetchAll()
             );
         } catch (\PDOException $e) {
             return $this->result(
                 false,
-                'Error in fetching all users',
+                'Error in fetching all Data',
                 $e->getMessage(),
                 500
             );
@@ -81,13 +81,13 @@ class BaseModel
             $stmt->execute();
             return $this->result(
                 true,
-                'user found successfully',
+                'Data found successfully',
                 $stmt->fetch()
             );
         } catch (\PDOException $e) {
             return $this->result(
                 false,
-                'Error in finding the user',
+                'Error in finding Data',
                 $e->getMessage(),
                 500
             );
