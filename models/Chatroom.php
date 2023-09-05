@@ -1,10 +1,9 @@
 <?php
 
 namespace models;
+use models\BaseModel;
 
-use database\DB;
-
-class Chatroom extends DB
+class Chatroom extends BaseModel
 {
 
 }

@@ -36,3 +36,13 @@ $app->get('/users/{id}', function (Request $request, Response $response, array $
     $response->getBody()->write(json_encode($users));
     return $response->withHeader('Content-Type', 'application/json');
 });
+$app->get('/users/{id}/chatrooms', function (Request $request, Response $response, array $args) {
+    $db = new DB('sqlite:slim-chatroom.db');
+    $user = new User($db);
+    $result = $user->find('users', $args['id']);
+    $chatrooms = $user->chatrooms($result);
+    $response->getBody()->write(json_encode($chatrooms));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+

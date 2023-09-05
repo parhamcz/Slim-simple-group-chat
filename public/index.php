@@ -15,5 +15,5 @@ $app->get('/', function (Request $request, Response $response, $args) {
 });
 //users routes
 require_once __DIR__ . '/../routes/users.php';
-//require_once __DIR__ . '/../routes/chatrooms.php';
+require_once __DIR__ . '/../routes/chatrooms.php';
 $app->run();
