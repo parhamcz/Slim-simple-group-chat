@@ -13,32 +13,15 @@ class BaseModel
         $this->db->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_OBJ);
     }
 
-    public function result(bool $status, string $message, $data, $code = 200): array
-    {
-        return [
-            'status' => $status,
-            'message' => $message,
-            'data' => $data,
-            'status code' => $code
-        ];
-    }
+
 
     public function getAll($table)
     {
         try {
             $stmt = $this->db->query("SELECT * FROM $table");
-            return $this->result(
-                true,
-                'Data fetched successfully',
-                $stmt->fetchAll()
-            );
+            return $stmt->fetchAll();
         } catch (\PDOException $e) {
-            return $this->result(
-                false,
-                'Error in fetching all Data',
-                $e->getMessage(),
-                500
-            );
+            return $e->getMessage();
         }
 
     }
@@ -58,17 +41,9 @@ class BaseModel
             }
 
             $stmt->execute();
-            return $this->result(
-                true,
-                'Insertion Successful',
-                '');
+            return $values;
         } catch (\PDOException $e) {
-            return $this->result(
-                false,
-                'Insertion Failed',
-                $e->getMessage(),
-                500
-            );
+            return $e->getMessage();
         }
     }
 
@@ -79,18 +54,9 @@ class BaseModel
             $stmt = $this->db->prepare($sql);
             $stmt->bindValue(':id', $id);
             $stmt->execute();
-            return $this->result(
-                true,
-                'Data found successfully',
-                $stmt->fetch()
-            );
+            return $stmt->fetch();
         } catch (\PDOException $e) {
-            return $this->result(
-                false,
-                'Error in finding Data',
-                $e->getMessage(),
-                500
-            );
+            return $e->getMessage();
         }
     }
 }
