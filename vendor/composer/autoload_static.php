@@ -118,12 +118,18 @@ class ComposerStaticInitf46f9d0673e9ea408ca20698e1099dae
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Controllers\\Chatroom\\ChatroomController' => __DIR__ . '/../..' . '/Controllers/Chatroom/ChatroomController.php',
         'Controllers\\Controller' => __DIR__ . '/../..' . '/Controllers/Controller.php',
         'Controllers\\User\\UserController' => __DIR__ . '/../..' . '/Controllers/User/UserController.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
         'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
+        'database\\DB' => __DIR__ . '/../..' . '/database/DB.php',
+        'models\\BaseModel' => __DIR__ . '/../..' . '/models/BaseModel.php',
+        'models\\Chatroom' => __DIR__ . '/../..' . '/models/Chatroom.php',
+        'models\\Message' => __DIR__ . '/../..' . '/models/Message.php',
+        'models\\User' => __DIR__ . '/../..' . '/models/User.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

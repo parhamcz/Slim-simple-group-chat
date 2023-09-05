@@ -10,6 +10,8 @@
     },
     "autoload": {
         "classmap": [
+            "Controllers\\User",
+            "Controllers\\Chatroom",
             "Controllers",
             "models",
             "database"

@@ -28,7 +28,7 @@ class Chatroom extends BaseModel
     public function join($chatroom, $user)
     {
         try{
-            $sql = "INSERT INTO chatroom_user VALUES (:chatroom_id,:user_id)";
+            $sql = "INSERT INTO chatroom_user VALUES (:user_id,:chatroom_id)";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':chatroom_id',$chatroom->id,\PDO::PARAM_INT);
             $stmt->bindParam(':user_id',$user->id,\PDO::PARAM_INT);
