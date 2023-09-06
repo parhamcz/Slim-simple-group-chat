@@ -2,10 +2,11 @@
 
 use Slim\Factory\AppFactory;
 use Controllers\User\UserController;
-
+use Middlewares\Authentication;
 require __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
+$app->add(new Authentication());
 
 $app->group('/users', function ($app) {
     $app->get('', [UserController::class, 'all_users']);
