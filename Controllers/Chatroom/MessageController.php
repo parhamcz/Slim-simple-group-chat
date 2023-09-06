@@ -38,7 +38,7 @@ class MessageController extends Controller
     {
         try {
             $username = $request->getHeader('username')[0];
-            $message = $request->getParsedBody()['message'];
+            $text = $request->getParsedBody()['message'];
             $db = new DB('sqlite:slim-chatroom.db');
 
             $user_instance = new User($db);
@@ -47,7 +47,7 @@ class MessageController extends Controller
 
             $chatroom = $chatroom_instance->find('chatrooms', $args['id']);
             $user = $user_instance->findByCol('users', 'username', $username);
-            $messages = $message->send($user, $message, $chatroom);
+            $messages = $message->send($user, $text, $chatroom);
 
             $response->getBody()->write(json_encode($this->result(
                 true,

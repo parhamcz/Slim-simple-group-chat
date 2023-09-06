@@ -9,6 +9,7 @@ return array(
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Controllers\\Chatroom\\ChatroomController' => $baseDir . '/Controllers/Chatroom/ChatroomController.php',
+    'Controllers\\Chatroom\\MessageController' => $baseDir . '/Controllers/Chatroom/MessageController.php',
     'Controllers\\Controller' => $baseDir . '/Controllers/Controller.php',
     'Controllers\\User\\UserController' => $baseDir . '/Controllers/User/UserController.php',
     'PhpToken' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
