@@ -248,4 +248,31 @@ class ChatroomController extends Controller
             ));
         }
     }
+
+    public function destroy(Request $request, Response $response, array $args): Response
+    {
+        try {
+            $chatroom_id = $args['id'];
+            $db = new DB('sqlite:slim-chatroom.db');
+
+            $chatroom_instance = new Chatroom($db);
+            $result = $chatroom_instance->delete('chatrooms', $chatroom_id);
+            if ($result) {
+                return $this->write($response, $this->result(
+                    true,
+                    'Chatroom deleted by admin successfully',
+                    [],
+                ));
+            }
+            return $this->write($response, $this->notFound('Chatroom not found'));
+        } catch (\Exception $e) {
+            return $this->write($response, $this->result(
+                false,
+                'Error in deleting the chatroom',
+                [],
+                500
+            ));
+        }
+
+    }
 }
