@@ -16,6 +16,9 @@
             "Middlewares",
             "models",
             "database"
-        ]
+        ],
+        "psr-4": {
+            "Routes\\": "routes/"
+        }
     }
 }
