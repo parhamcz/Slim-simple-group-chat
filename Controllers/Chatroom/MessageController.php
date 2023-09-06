@@ -17,11 +17,19 @@ class MessageController extends Controller
         try {
             $db = new DB('sqlite:slim-chatroom.db');
             $message = new Message($db);
+            $user_instance = new User($db);
             $messages = $message->getAll('chatroom_messages');
+            $data = array_map(function ($message) use ($user_instance) {
+                $user = $user_instance->find('users',$message->user_id);
+                return [
+                    'from' =>$user->display_name,
+                    'message' => $message->text
+                ];
+            }, $messages);
             $response->getBody()->write(json_encode($this->result(
                 true,
                 "Chatroom's messages fetched successfully",
-                $messages,
+                $data
             )));
         } catch (\PDOException $exception) {
             $response->getBody()->write(($this->result(
