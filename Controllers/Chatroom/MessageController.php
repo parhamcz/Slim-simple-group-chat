@@ -12,6 +12,12 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class MessageController extends Controller
 {
+    /**
+     * returns all the messages from a given chatroom
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     */
     public function all_messages(Request $request, Response $response): Response
     {
         try {
@@ -42,6 +48,13 @@ class MessageController extends Controller
         return $response->withHeader('Content-Type', 'application/json');
     }
 
+    /**
+     * sends a message to the given chatroom
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function send(Request $request, Response $response, array $args): Response
     {
         try {
