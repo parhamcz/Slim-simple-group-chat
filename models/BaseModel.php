@@ -65,6 +65,9 @@ class BaseModel
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':id', $id);
         $stmt->execute();
-        return $stmt->rowCount();
+        if($stmt->rowCount() == 0){
+            return false;
+        }
+        return true;
     }
 }
