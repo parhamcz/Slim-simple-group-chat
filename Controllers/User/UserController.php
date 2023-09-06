@@ -118,7 +118,7 @@ class UserController extends Controller
     public function your_chatrooms(Request $request, Response $response): Response
     {
         try {
-            $username = $request->getHeader('username')[0];
+            $username = $request->getHeaderLine('username');
             $db = new DB('sqlite:slim-chatroom.db');
             $user = new User($db);
             $result = $user->findByCol('users', 'username', $username);

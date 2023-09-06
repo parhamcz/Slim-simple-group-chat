@@ -58,7 +58,7 @@ class MessageController extends Controller
     public function send(Request $request, Response $response, array $args): Response
     {
         try {
-            $username = $request->getHeader('username')[0];
+            $username = $request->getHeaderLine('username');
             $text = $request->getParsedBody()['message'];
             $db = new DB('sqlite:slim-chatroom.db');
 

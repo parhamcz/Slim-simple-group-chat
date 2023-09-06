@@ -50,7 +50,7 @@ class ChatroomController extends Controller
     {
         try {
 
-            $username = $request->getHeader('username')[0];
+            $username = $request->getHeaderLine('username');
             $inputs = $request->getParsedBody();
             $db = new DB('sqlite:slim-chatroom.db');
 
@@ -129,7 +129,7 @@ class ChatroomController extends Controller
     public function join(Request $request, Response $response, array $args): Response
     {
         try {
-            $username = $request->getHeader('username')[0];
+            $username = $request->getHeaderLine('username');
             $db = new DB('sqlite:slim-chatroom.db');
             $user_instance = new User($db);
             $chatroom_instance = new Chatroom($db);
@@ -172,7 +172,7 @@ class ChatroomController extends Controller
     public function leave(Request $request, Response $response, array $args): Response
     {
         try {
-            $username = $request->getHeader('username')[0];
+            $username = $request->getHeaderLine('username');
             $db = new DB('sqlite:slim-chatroom.db');
             $user_instance = new User($db);
             $chatroom_instance = new Chatroom($db);
