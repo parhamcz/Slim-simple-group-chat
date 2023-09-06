@@ -8,7 +8,6 @@ class Chatroom extends BaseModel
 {
     public function users($chatroom)
     {
-        try {
             $sql = "
                      SELECT users.display_name,users.username
                      FROM chatroom_user
@@ -20,14 +19,10 @@ class Chatroom extends BaseModel
             $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetchAll();
-        } catch (\PDOException $e) {
-            return $e->getMessage();
-        }
     }
 
     public function join($chatroom, $user)
     {
-        try {
             $sql = "SELECT COUNT(*) as count FROM chatroom_user WHERE user_id = :user_id AND chatroom_id = :chatroom_id";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':user_id', $user->id, \PDO::PARAM_INT);
@@ -46,23 +41,15 @@ class Chatroom extends BaseModel
                 return true;
             }
             return false;
-        } catch (\PDOException $e) {
-            return $e->getMessage();
-        }
     }
 
     public function leave($chatroom, $user)
     {
-        try {
             $sql = "DELETE FROM chatroom_user WHERE user_id = :user_id AND chatroom_id = :chatroom_id";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':chatroom_id', $chatroom->id, \PDO::PARAM_INT);
             $stmt->bindParam(':user_id', $user->id, \PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->rowCount();
-        } catch (\PDOException $e) {
-            return $e->getMessage();
-        }
     }
-
 }

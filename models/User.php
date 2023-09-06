@@ -7,7 +7,6 @@ class User extends BaseModel
 {
     public function chatrooms($user)
     {
-        try{
             $sql = "
                      SELECT chatrooms.name
                      FROM chatroom_user
@@ -18,10 +17,5 @@ class User extends BaseModel
             $id = $user->id;
             $stmt->bindParam(':id',$id,\PDO::PARAM_INT);
             $stmt->execute();
-            return $stmt->fetchAll();
-        }catch (\PDOException $e){
-            return $e->getMessage();
-        }
-
     }
 }

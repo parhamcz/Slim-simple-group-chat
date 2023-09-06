@@ -16,18 +16,12 @@ class BaseModel
 
     public function getAll($table)
     {
-        try {
             $stmt = $this->db->query("SELECT * FROM $table");
             return $stmt->fetchAll();
-        } catch (\PDOException $e) {
-            return $e->getMessage();
-        }
-
     }
 
     public function create(string $table, array $values)
     {
-        try {
             $fields = implode(', ', array_keys($values));
             $placeholders = ':' . implode(', :', array_keys($values));
 
@@ -41,34 +35,23 @@ class BaseModel
 
             $stmt->execute();
             return $values;
-        } catch (\PDOException $e) {
-            return $e->getMessage();
-        }
     }
 
     public function find($table, $id)
     {
-        try {
             $sql = "SELECT * FROM $table WHERE id = :id";
             $stmt = $this->db->prepare($sql);
             $stmt->bindValue(':id', $id);
             $stmt->execute();
             return $stmt->fetch();
-        } catch (\PDOException $e) {
-            return $e->getMessage();
-        }
     }
 
     public function findByCol(string $table, string $field, string|int $value)
     {
-        try {
             $sql = "SELECT * FROM $table WHERE $field = :username";
             $stmt = $this->db->prepare($sql);
             $stmt->bindValue(':username', $value);
             $stmt->execute();
             return $stmt->fetch();
-        } catch (\PDOException $e) {
-            return $e->getMessage();
-        }
     }
 }
