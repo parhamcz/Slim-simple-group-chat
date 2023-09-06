@@ -24,20 +24,19 @@ class ChatroomController extends Controller
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $chatroom = new Chatroom($db);
             $chatrooms = $chatroom->getAll('chatrooms');
-            $response->getBody()->write(json_encode($this->result(
+            return $this->write($response, $this->result(
                 true,
                 'Chatrooms fetched successfully',
                 $chatrooms,
-            )));
+            ));
         } catch (\PDOException $exception) {
-            $response->getBody()->write(($this->result(
+            return $this->write($response, $this->result(
                 false,
                 'Error in fetching chatrooms',
                 [],
                 500
-            )));
+            ));
         }
-        return $response->withHeader('Content-Type', 'application/json');
     }
 
     /**
@@ -56,25 +55,25 @@ class ChatroomController extends Controller
 
             $user_instance = new User($db);
             $user = $user_instance->findByCol('users', 'username', $username);
-            $chatroom = new Chatroom($db);
+            $chatroom_instance = new Chatroom($db);
             $data = [
-                'name' => $inputs['name']
+                'name' => $inputs['name'],
+                'description' => $inputs['description'] ?? ''
             ];
-            $chatroom->create('chatrooms', $data);
-            $created_chatroom = $chatroom->findByCol('chatrooms', 'name', $data['name']);
-            $chatroom->join($created_chatroom, $user);
-            $response->getBody()->write(json_encode(
-                $this->result(
-                    true,
-                    'chatroom created successfully',
-                    [
-                        'chatroom' => $data,
-                        'users' => $user
-                    ]
-                )
-            ));
+            $chatroom = $chatroom_instance->create('chatrooms', $data);
+            $chatroom_instance->join($chatroom, $user);
+            $chatroom_instance->setAdmin($chatroom, $user);
+            return $this->write($response, $this->result(
+                true,
+                'chatroom created successfully',
+                [
+                    'chatroom' => $chatroom,
+                    'users' => $user
+                ]
+            )
+            );
         } catch (\Exception $e) {
-            $response->getBody()->write(json_encode(
+            return $this->write($response, json_encode(
                 $this->result(
                     false,
                     'Error in creating chatroom',
@@ -83,7 +82,6 @@ class ChatroomController extends Controller
                 )
             ));
         }
-        return $response->withHeader('Content-Type', 'application/json');
     }
 
     /**
@@ -99,25 +97,23 @@ class ChatroomController extends Controller
             $db = new DB('sqlite:slim-chatroom.db');
             $chatroom = new Chatroom($db);
             $data['chatroom'] = $chatroom->find('chatrooms', $args['id']);
-            $data['users'] = $chatroom->users($data['chatroom']);
-            $response->getBody()->write(json_encode(
-                $this->result(
+            if (!empty($data['chatroom'])) {
+                $data['users'] = $chatroom->users($data['chatroom']);
+                return $this->write($response, $this->result(
                     true,
                     "Chatroom's info fetched successfully",
-                    $data
-                )
-            ));
+                    $data));
+            }
+            return $this->write($response, $this->notFound("Chatroom not found"));
         } catch (\Exception $exception) {
-            $response->getBody()->write(json_encode(
-                $this->result(
-                    false,
-                    'Error in creating Chatroom',
-                    [],
-                    500
-                )
-            ));
+            return $this->write($response, $this->result(
+                false,
+                'Error in fetching chatroom',
+                [],
+                500
+            )
+            );
         }
-        return $response->withHeader('Content-Type', 'application/json');
     }
 
     /**
@@ -131,42 +127,40 @@ class ChatroomController extends Controller
         try {
             $username = $request->getHeaderLine('username');
             $db = new DB('sqlite:slim-chatroom.db');
+
             $user_instance = new User($db);
             $chatroom_instance = new Chatroom($db);
+
             $user = $user_instance->findByCol('users', 'username', $username);
             $chatroom = $chatroom_instance->find('chatrooms', $args['id']);
-            if($chatroom_instance->join($chatroom, $user)){
-                $response->getBody()->write(json_encode(
-                    $this->result(
+
+            if (!empty($chatroom)) {
+                if ($chatroom_instance->join($chatroom, $user)) {
+                    return $this->write($response, $this->result(
                         true,
                         "User joined the chatroom successfully",
                         [
                             'chatroom' => $chatroom,
                             'user' => $user
                         ]
-                    )
-                ));
-            }else{
-                $response->getBody()->write(json_encode(
-                    $this->result(
-                        false,
-                        "User is already joined",
-                        [],
-                    )
-                ));
-            }
-
-        } catch (\Exception $e) {
-            $response->getBody()->write(json_encode(
-                $this->result(
+                    ));
+                }
+                return $this->write($response, $this->result(
                     false,
-                    "Error in joining the chatroom",
+                    "User is already joined",
                     [],
-                    500
                 )
+                );
+            }
+            return $this->write($response, $this->notFound("Chatroom not found"));
+        } catch (\Exception $e) {
+            return $this->write($response, $this->result(
+                false,
+                "Error in joining the chatroom",
+                [],
+                500
             ));
         }
-        return $response->withHeader('Content-Type', 'application/json');
     }
 
     public function leave(Request $request, Response $response, array $args): Response
@@ -174,41 +168,84 @@ class ChatroomController extends Controller
         try {
             $username = $request->getHeaderLine('username');
             $db = new DB('sqlite:slim-chatroom.db');
+
             $user_instance = new User($db);
             $chatroom_instance = new Chatroom($db);
+
             $user = $user_instance->findByCol('users', 'username', $username);
             $chatroom = $chatroom_instance->find('chatrooms', $args['id']);
-            if ($chatroom_instance->leave($chatroom, $user) == 0) {
-                $response->getBody()->write(json_encode(
-                    $this->result(
+
+            if (!empty($chatroom)) {
+                if ($chatroom_instance->leave($chatroom, $user) == 0) {
+                    return $this->write($response, $this->result(
                         false,
                         "User is not in the chatroom",
                         [],
                         404
                     )
-                ));
-            } else {
-                $response->getBody()->write(json_encode(
-                    $this->result(
-                        true,
-                        "User left the chatroom successfully",
-                        [
-                            'chatroom' => $chatroom,
-                            'user' => $user
-                        ]
-                    )
+                    );
+                }
+                return $this->write($response, $this->result(
+                    true,
+                    "User left the chatroom successfully",
+                    [
+                        'chatroom' => $chatroom,
+                        'user' => $user
+                    ]
                 ));
             }
+            return $this->write($response, $this->notFound("Chatroom not found"));
         } catch (\Exception $e) {
-            $response->getBody()->write(json_encode(
-                $this->result(
-                    false,
-                    "Error in leaving the chatroom",
-                    [],
-                    500
-                )
+            return $this->write($response, $this->result(
+                false,
+                "Error in leaving the chatroom",
+                [],
+                500
             ));
         }
-        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public function set_admin(Request $request, Response $response, array $args): Response
+    {
+        try {
+            $user_id = $args['user_id'];
+            $chatroom_id = $args['chatroom_id'];
+            $db = new DB('sqlite:slim-chatroom.db');
+
+            $user_instance = new User($db);
+            $chatroom_instance = new Chatroom($db);
+
+            $chatroom = $chatroom_instance->find('chatrooms', $chatroom_id);
+            $user = $user_instance->find('users', $user_id);
+            if (!$chatroom) {
+                return $this->write($response, $this->notFound("Chatroom not found"));
+            }
+            if (!$user) {
+                return $this->write($response, $this->notFound("User not found"));
+            }
+            if ($chatroom_instance->setAdmin($chatroom, $user)) {
+                return $this->write($response, $this->result(
+                    true,
+                    'User has become admin successfully',
+                    [
+                        'user' => $user,
+                        'chatroom' => $chatroom
+                    ]
+                ));
+            }
+            return $this->write($response, $this->result(
+                false,
+                'User is not in the chatroom',
+                [],
+                400
+            ));
+        } catch (\Exception $e) {
+            return $this->write($response, $this->result(
+                false,
+                'Error in assigning admin',
+                [],
+                500
+            ));
+        }
     }
 }
