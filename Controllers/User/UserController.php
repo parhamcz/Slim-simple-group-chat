@@ -28,7 +28,6 @@ class UserController extends Controller
                 'Users fetched successfully',
                 $users,
             )));
-            return $response->withHeader('Content-Type', 'application/json');
         } catch (\PDOException $exception) {
             $response->getBody()->write(($this->result(
                 false,
@@ -36,8 +35,8 @@ class UserController extends Controller
                 [],
                 500
             )));
-            return $response->withHeader('Content-Type', 'application/json');
         }
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     /**

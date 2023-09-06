@@ -29,7 +29,6 @@ class ChatroomController extends Controller
                 'Chatrooms fetched successfully',
                 $chatrooms,
             )));
-            return $response->withHeader('Content-Type', 'application/json');
         } catch (\PDOException $exception) {
             $response->getBody()->write(($this->result(
                 false,
@@ -37,8 +36,8 @@ class ChatroomController extends Controller
                 [],
                 500
             )));
-            return $response->withHeader('Content-Type', 'application/json');
         }
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     /**
