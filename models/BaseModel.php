@@ -34,7 +34,7 @@ class BaseModel
         }
 
         $stmt->execute();
-        return $values;
+        return $this->find($table, $this->db->lastInsertId());
     }
 
     public function find($table, $id)

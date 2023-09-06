@@ -9,11 +9,12 @@ require __DIR__ . '/../database/DB.php';
 require __DIR__ . '/../models/User.php';
 $app = AppFactory::create();
 
-$app->get('/', function (Request $request, Response $response, $args) {
+$app->get('/', function (Request $request, Response $response) {
     $response->getBody()->write(json_encode(['message' => 'hello world!']));
     return $response->withHeader('Content-Type', 'application/json');
 });
-//users routes
+// Routes
 require_once __DIR__ . '/../routes/users.php';
+require_once __DIR__ . '/../routes/messages.php';
 require_once __DIR__ . '/../routes/chatrooms.php';
 $app->run();
