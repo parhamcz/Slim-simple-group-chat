@@ -57,10 +57,10 @@ class Chatroom extends BaseModel
     {
         $sql = "SELECT is_admin FROM chatroom_user WHERE user_id = :user_id AND chatroom_id = :chatroom_id";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam('user_id',$user->id,\PDO::PARAM_INT);
-        $stmt->bindParam('chatroom_id',$chatroom->id,\PDO::PARAM_INT);
+        $stmt->bindParam('user_id', $user->id, \PDO::PARAM_INT);
+        $stmt->bindParam('chatroom_id', $chatroom->id, \PDO::PARAM_INT);
         $stmt->execute();
-        if($stmt->fetch()->is_admin == 0){
+        if ($stmt->fetch()->is_admin == 0) {
             return false;
         }
         return true;
@@ -68,16 +68,30 @@ class Chatroom extends BaseModel
 
     public function setAdmin($chatroom, $user)
     {
+        $exists_sql = "SELECT COUNT(*) FROM chatroom_user WHERE user_id = :user_id AND chatroom_id = :chatroom_id";
         $sql = "UPDATE chatroom_user
         SET is_admin = 1
         WHERE user_id = :user_id AND chatroom_id = :chatroom_id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam('user_id',$user->id,\PDO::PARAM_INT);
-        $stmt->bindParam('chatroom_id',$chatroom->id,\PDO::PARAM_INT);
-        $stmt->execute();
-        if($stmt->rowCount() == 0 ){
-            return false;
+
+        $exists_stmt = $this->db->prepare($exists_sql);
+
+        $exists_stmt->bindParam('user_id', $user->id, \PDO::PARAM_INT);
+        $exists_stmt->bindParam('chatroom_id', $chatroom->id, \PDO::PARAM_INT);
+
+        $exists_stmt->execute();
+
+        if(!empty($exists_stmt->fetch())){
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->bindParam('user_id', $user->id, \PDO::PARAM_INT);
+            $stmt->bindParam('chatroom_id', $chatroom->id, \PDO::PARAM_INT);
+
+            $stmt->execute();
+            if ($stmt->rowCount() == 0) {
+                return false;
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 }
