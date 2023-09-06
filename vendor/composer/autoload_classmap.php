@@ -12,6 +12,7 @@ return array(
     'Controllers\\Chatroom\\MessageController' => $baseDir . '/Controllers/Chatroom/MessageController.php',
     'Controllers\\Controller' => $baseDir . '/Controllers/Controller.php',
     'Controllers\\User\\UserController' => $baseDir . '/Controllers/User/UserController.php',
+    'Middlewares\\Authentication' => $baseDir . '/Middlewares/Authentication.php',
     'PhpToken' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
     'Stringable' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
     'UnhandledMatchError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',

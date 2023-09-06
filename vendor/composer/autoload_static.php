@@ -122,6 +122,7 @@ class ComposerStaticInitf46f9d0673e9ea408ca20698e1099dae
         'Controllers\\Chatroom\\MessageController' => __DIR__ . '/../..' . '/Controllers/Chatroom/MessageController.php',
         'Controllers\\Controller' => __DIR__ . '/../..' . '/Controllers/Controller.php',
         'Controllers\\User\\UserController' => __DIR__ . '/../..' . '/Controllers/User/UserController.php',
+        'Middlewares\\Authentication' => __DIR__ . '/../..' . '/Middlewares/Authentication.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',

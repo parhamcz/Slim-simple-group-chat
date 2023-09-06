@@ -13,6 +13,7 @@
             "Controllers\\User",
             "Controllers\\Chatroom",
             "Controllers",
+            "Middlewares",
             "models",
             "database"
         ]
