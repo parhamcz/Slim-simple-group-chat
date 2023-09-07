@@ -17,5 +17,6 @@ class User extends BaseModel
             $id = $user->id;
             $stmt->bindParam(':id',$id,\PDO::PARAM_INT);
             $stmt->execute();
+            return $stmt->fetchAll();
     }
 }
