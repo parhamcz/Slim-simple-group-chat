@@ -32,21 +32,19 @@ class MessageController extends Controller
                     'message' => $message->text
                 ];
             }, $messages);
-            $this->write($response, $this->result(
+            return $this->write($response, $this->result(
                 true,
                 "Chatroom's messages fetched successfully",
                 $data
             ));
         } catch (\PDOException $exception) {
-            $code = 500;
-            $this->write($response, $this->result(
+            return $this->write($response, $this->result(
                 false,
                 "Error in fetching chatroom's messages",
                 [],
-                $code
+                500
             ));
         }
-        return $response->withHeader('Content-Type', 'application/json')->withStatus($code ?? 200);
     }
 
     /**
@@ -68,10 +66,17 @@ class MessageController extends Controller
             $message = new Message($db);
 
             $chatroom = $chatroom_instance->find('chatrooms', $args['id']);
-            $user = $user_instance->findByCol('users', 'username', $username);
-            $messages = $message->send($user, $text, $chatroom);
+            if (!$chatroom) {
+                return $this->write($response, $this->notFound("Chatroom not found"));
+            }
 
-            $this->write($response, $this->result(
+            $user = $user_instance->findByCol('users', 'username', $username);
+            if (!$user) {
+                return $this->write($response, $this->notFound("User not found"));
+            }
+
+            $messages = $message->send($user, $text, $chatroom);
+            return $this->write($response, $this->result(
                 true,
                 "Message sent successfully",
                 [
@@ -81,14 +86,12 @@ class MessageController extends Controller
                 ],
             ));
         } catch (\PDOException $exception) {
-            $code = 500;
-            $response->getBody()->write(($this->result(
+            $this->write($response, $this->result(
                 false,
                 "Error in sending message",
                 [],
-                $code
-            )));
+                500
+            ));
         }
-        return $response->withHeader('Content-Type', 'application/json')->withStatus($code ?? 200);
     }
 }
