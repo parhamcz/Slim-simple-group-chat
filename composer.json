@@ -10,12 +10,11 @@
     },
     "autoload": {
         "classmap": [
-            "Controllers\\User",
-            "Controllers\\Chatroom",
             "Controllers",
             "Middlewares",
             "models",
-            "database"
+            "database",
+            "routes"
         ],
         "psr-4": {
             "Routes\\": "routes/"
