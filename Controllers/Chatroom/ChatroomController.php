@@ -209,7 +209,7 @@ class ChatroomController extends Controller
     {
         try {
             $user_id = $args['user_id'];
-            $chatroom_id = $args['chatroom_id'];
+            $chatroom_id = $args['id'];
             $db = new DB('sqlite:slim-chatroom.db');
 
             $user_instance = new User($db);
