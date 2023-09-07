@@ -65,7 +65,7 @@ class ChatroomController extends Controller
             $chatroom_instance->setAdmin($chatroom, $user);
             return $this->write($response, $this->result(
                 true,
-                'chatroom created successfully',
+                'Chatroom created successfully',
                 [
                     'chatroom' => $chatroom,
                     'users' => $user
@@ -97,6 +97,7 @@ class ChatroomController extends Controller
             $db = new DB('sqlite:slim-chatroom.db');
             $chatroom = new Chatroom($db);
             $data['chatroom'] = $chatroom->find('chatrooms', $args['id']);
+
             if (!empty($data['chatroom'])) {
                 $data['users'] = $chatroom->users($data['chatroom']);
                 return $this->write($response, $this->result(
