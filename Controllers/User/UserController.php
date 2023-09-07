@@ -29,15 +29,13 @@ class UserController extends Controller
                 $users,
             ));
         } catch (\PDOException $exception) {
-            $code = 500;
-            $this->write($response, $this->result(
+            return $this->write($response, $this->result(
                 false,
                 'Error in fetching users',
                 [],
-                $code
+                500
             ));
         }
-        return $response->withHeader('Content-Type', 'application/json')->withStatus($code ?? 200);
     }
 
     /**
@@ -63,15 +61,13 @@ class UserController extends Controller
                 $result
             ));
         } catch (\Exception $e) {
-            $code = 500;
-            $this->write($response, $this->result(
+            return $this->write($response, $this->result(
                 false,
                 'Error in creating user',
                 [$e->getMessage()],
-                $code
+                500
             ));
         }
-        return $response->withHeader('Content-Type', 'application/json')->withStatus($code ?? 200);
     }
 
     /**
@@ -87,21 +83,22 @@ class UserController extends Controller
             $db = new DB('sqlite:slim-chatroom.db');
             $user = new User($db);
             $data = $user->find('users', $args['id']);
-            $this->write($response, $this->result(
+            if(!$data){
+                return $this->write($response, $this->notFound("User not found"));
+            }
+            return $this->write($response, $this->result(
                 true,
                 'User fetched successfully',
                 $data
             ));
         } catch (\Exception $exception) {
-            $code = 500;
-            $this->write($response, $this->result($response,
+            return $this->write($response, $this->result(
                 false,
                 'Error in creating user',
                 [],
-                $code
+                500
             ));
         }
-        return $response->withHeader('Content-Type', 'application/json')->withStatus($code ?? 200);
     }
 
     /**
@@ -117,21 +114,22 @@ class UserController extends Controller
             $db = new DB('sqlite:slim-chatroom.db');
             $user = new User($db);
             $result = $user->findByCol('users', 'username', $username);
+            if(!$result){
+                return $this->write($response, $this->notFound("User not found"));
+            }
             $chatrooms = $user->chatrooms($result);
-            $this->write($response, $this->result(
+           return $this->write($response, $this->result(
                 true,
                 "User's chatrooms fetched successfully",
                 $chatrooms
             ));
         } catch (\Exception $e) {
-            $code = 500;
-            $this->write($response, $this->result(
+            return $this->write($response, $this->result(
                 false,
                 "Error in fetching user's chatrooms",
                 [],
-                $code
+                500
             ));
         }
-        return $response->withHeader('Content-Type', 'application/json')->withStatus($code ?? 200);
     }
 }
