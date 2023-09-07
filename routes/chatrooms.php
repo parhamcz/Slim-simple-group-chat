@@ -3,6 +3,7 @@
 use Slim\Factory\AppFactory;
 use Controllers\Chatroom\ChatroomController;
 use Middlewares\Authentication;
+use Middlewares\Admin_Check;
 use Slim\Routing\RouteCollectorProxy;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -16,7 +17,9 @@ $app->group('/chatrooms', function (RouteCollectorProxy $group) {
     $group->get('/{id}', [ChatroomController::class, 'show']);
     $group->get('/{id}/join', [ChatroomController::class, 'join']);
     $group->get('/{id}/leave', [ChatroomController::class, 'leave']);
-    $group->get('/{id}/destroy', [ChatroomController::class, 'destroy']);
-    $group->get('/{id}/user/{user_id}/set-admin', [ChatroomController::class, 'set_admin']);
+    $group->group('',function (RouteCollectorProxy $group){
+        $group->get('/{id}/destroy', [ChatroomController::class, 'destroy']);
+        $group->get('/{id}/user/{user_id}/set-admin', [ChatroomController::class, 'set_admin']);
+    })->add(new Admin_Check());
 });
 
