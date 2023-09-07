@@ -23,20 +23,21 @@ class UserController extends Controller
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $user = new User($db);
             $users = $user->getAll('users');
-            $response->getBody()->write(json_encode($this->result(
+            $this->write($response, $this->result(
                 true,
                 'Users fetched successfully',
                 $users,
-            )));
+            ));
         } catch (\PDOException $exception) {
-            $response->getBody()->write(($this->result(
+            $code = 500;
+            $this->write($response, $this->result(
                 false,
                 'Error in fetching users',
                 [],
-                500
-            )));
+                $code
+            ));
         }
-        return $response->withHeader('Content-Type', 'application/json');
+        return $response->withHeader('Content-Type', 'application/json')->withStatus($code ?? 200);
     }
 
     /**
@@ -56,24 +57,21 @@ class UserController extends Controller
                 'username' => $inputs['display_name']
             ];
             $result = $user->create('users', $data);
-            $response->getBody()->write(json_encode(
-                $this->result(
-                    true,
-                    'User created successfully',
-                    $result
-                )
+            $this->write($response, $this->result(
+                true,
+                'User created successfully',
+                $result
             ));
         } catch (\Exception $e) {
-            $response->getBody()->write(json_encode(
-                $this->result(
-                    false,
-                    'Error in creatinf user',
-                    [],
-                    500
-                )
+            $code = 500;
+            $this->write($response, $this->result(
+                false,
+                'Error in creatinf user',
+                [],
+                $code
             ));
         }
-        return $response->withHeader('Content-Type', 'application/json');
+        return $response->withHeader('Content-Type', 'application/json')->withStatus($code ?? 200);
     }
 
     /**
@@ -89,24 +87,21 @@ class UserController extends Controller
             $db = new DB('sqlite:slim-chatroom.db');
             $user = new User($db);
             $data = $user->find('users', $args['id']);
-            $response->getBody()->write(json_encode(
-                $this->result(
-                    true,
-                    'User fetched successfully',
-                    $data
-                )
+            $this->write($response, $this->result(
+                true,
+                'User fetched successfully',
+                $data
             ));
         } catch (\Exception $exception) {
-            $response->getBody()->write(json_encode(
-                $this->result(
-                    false,
-                    'Error in creating user',
-                    [],
-                    500
-                )
+            $code = 500;
+            $this->write($response, $this->result($response,
+                false,
+                'Error in creating user',
+                [],
+                $code
             ));
         }
-        return $response->withHeader('Content-Type', 'application/json');
+        return $response->withHeader('Content-Type', 'application/json')->withStatus($code ?? 200);
     }
 
     /**
@@ -123,23 +118,20 @@ class UserController extends Controller
             $user = new User($db);
             $result = $user->findByCol('users', 'username', $username);
             $chatrooms = $user->chatrooms($result);
-            $response->getBody()->write(json_encode(
-                $this->result(
-                    true,
-                    "User's chatrooms fetched successfully",
-                    $chatrooms
-                )
+            $this->write($response, $this->result(
+                true,
+                "User's chatrooms fetched successfully",
+                $chatrooms
             ));
         } catch (\Exception $e) {
-            $response->getBody()->write(json_encode(
-                $this->result(
-                    false,
-                    "Error in fetching user's chatrooms",
-                    [],
-                    500
-                )
+            $code = 500;
+            $this->write($response, $this->result(
+                false,
+                "Error in fetching user's chatrooms",
+                [],
+                $code
             ));
         }
-        return $response->withHeader('Content-Type', 'application/json');
+        return $response->withHeader('Content-Type', 'application/json')->withStatus($code ?? 200);
     }
 }
