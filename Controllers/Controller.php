@@ -9,7 +9,7 @@ class Controller
     public function write(Response $response , $writable)
     {
         $response->getbody()->write(json_encode($writable));
-        return $response->withHeader('Content-Type','application/json');
+        return $response->withHeader('Content-Type','application/json')->withStatus($writable['status code']);
     }
     public function result(bool $status, string $message, $data, $code = 200): array
     {
