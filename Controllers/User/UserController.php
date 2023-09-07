@@ -53,8 +53,8 @@ class UserController extends Controller
             $db = new DB('sqlite:slim-chatroom.db');
             $user = new User($db);
             $data = [
-                'display_name' => $inputs['username'],
-                'username' => $inputs['display_name']
+                'display_name' => $inputs['display_name'],
+                'username' => $inputs['username']
             ];
             $result = $user->create('users', $data);
             $this->write($response, $this->result(
@@ -67,7 +67,7 @@ class UserController extends Controller
             $this->write($response, $this->result(
                 false,
                 'Error in creating user',
-                [],
+                [$e->getMessage()],
                 $code
             ));
         }
