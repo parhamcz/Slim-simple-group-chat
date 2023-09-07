@@ -32,6 +32,6 @@ class Authentication implements MiddlewareInterface
             ]
         ));
 
-        return $response->withHeader('Content-Type','application.json')->withStatus(400);
+        return $response->withHeader('Content-Type','application.json')->withStatus(401);
     }
 }
