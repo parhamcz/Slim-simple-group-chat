@@ -6,9 +6,7 @@ use Middlewares\Authentication;
 use Middlewares\Admin_Check;
 use Slim\Routing\RouteCollectorProxy;
 
-require __DIR__ . '/../vendor/autoload.php';
 
-$app = AppFactory::create();
 $app->add(new Authentication());
 
 $app->group('/chatrooms', function (RouteCollectorProxy $group) {

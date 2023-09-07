@@ -1,12 +1,11 @@
 <?php
+
 use Slim\Factory\AppFactory;
 use Controllers\Chatroom\MessageController;
 use Middlewares\Authentication;
 use Slim\Routing\RouteCollectorProxy;
 
-require __DIR__ . '/../vendor/autoload.php';
 
-$app = AppFactory::create();
 $app->add(new Authentication());
 
 $app->group('/messages', function (RouteCollectorProxy $group) {

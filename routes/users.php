@@ -5,9 +5,8 @@ use Controllers\User\UserController;
 use Middlewares\Authentication;
 use Slim\Routing\RouteCollectorProxy;
 
-require __DIR__ . '/../vendor/autoload.php';
 
-$app = AppFactory::create();
+//$app = AppFactory::create();
 
 $app->group('/users', function (RouteCollectorProxy $group) {
     $group->post('', [UserController::class, 'create']);
