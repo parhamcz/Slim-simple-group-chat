@@ -66,7 +66,7 @@ class UserController extends Controller
             $code = 500;
             $this->write($response, $this->result(
                 false,
-                'Error in creatinf user',
+                'Error in creating user',
                 [],
                 $code
             ));
