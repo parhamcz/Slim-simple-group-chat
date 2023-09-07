@@ -28,7 +28,7 @@ class Authentication implements MiddlewareInterface
                 'status' => false,
                 'message' => 'Authentication needed',
                 'data' => [],
-                'status_code' => 400
+                'status_code' => 401
             ]
         ));
 
