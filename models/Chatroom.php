@@ -60,10 +60,11 @@ class Chatroom extends BaseModel
         $stmt->bindParam('user_id', $user->id, \PDO::PARAM_INT);
         $stmt->bindParam('chatroom_id', $chatroom->id, \PDO::PARAM_INT);
         $stmt->execute();
-        if ($stmt->fetch()->is_admin == 0) {
-            return false;
+        $user = $stmt->fetch();
+            if (!empty($user->is_admin) && ($user->is_admin == 1)) {
+                return true;
         }
-        return true;
+        return false;
     }
 
     public function setAdmin($chatroom, $user)
