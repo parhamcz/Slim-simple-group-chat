@@ -19,5 +19,8 @@
         "psr-4": {
             "Routes\\": "routes/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.3"
     }
 }
