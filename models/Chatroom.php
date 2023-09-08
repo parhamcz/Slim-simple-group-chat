@@ -69,6 +69,10 @@ class Chatroom extends BaseModel
 
     public function setAdmin($chatroom, $user)
     {
+        if($this->isAdmin($chatroom,$user)){
+            //-1 is code for user is already admin
+            return -1;
+        }
         $sql = "UPDATE chatroom_user
         SET is_admin = 1
         WHERE user_id = :user_id AND chatroom_id = :chatroom_id";
@@ -79,8 +83,10 @@ class Chatroom extends BaseModel
 
             $stmt->execute();
             if ($stmt->rowCount() == 0) {
-                return false;
+                //user is not in group chat
+                return 0;
             }
-            return true;
+            //OK
+            return 1;
     }
 }
