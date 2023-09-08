@@ -132,6 +132,7 @@ class ComposerStaticInitf46f9d0673e9ea408ca20698e1099dae
         'Controllers\\User\\UserController' => __DIR__ . '/../..' . '/Controllers/User/UserController.php',
         'Middlewares\\Admin_Check' => __DIR__ . '/../..' . '/Middlewares/Admin_Check.php',
         'Middlewares\\Authentication' => __DIR__ . '/../..' . '/Middlewares/Authentication.php',
+        'Middlewares\\ErrorHandle' => __DIR__ . '/../..' . '/Middlewares/ErrorHandle.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',

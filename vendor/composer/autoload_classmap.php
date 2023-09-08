@@ -14,6 +14,7 @@ return array(
     'Controllers\\User\\UserController' => $baseDir . '/Controllers/User/UserController.php',
     'Middlewares\\Admin_Check' => $baseDir . '/Middlewares/Admin_Check.php',
     'Middlewares\\Authentication' => $baseDir . '/Middlewares/Authentication.php',
+    'Middlewares\\ErrorHandle' => $baseDir . '/Middlewares/ErrorHandle.php',
     'PhpToken' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
     'Stringable' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
     'UnhandledMatchError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
