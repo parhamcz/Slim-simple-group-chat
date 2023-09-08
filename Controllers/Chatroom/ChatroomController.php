@@ -218,13 +218,15 @@ class ChatroomController extends Controller
 
             $chatroom = $chatroom_instance->find('chatrooms', $chatroom_id);
             $user = $user_instance->find('users', $user_id);
+
+            $result = $chatroom_instance->setAdmin($chatroom, $user);
             if (!$chatroom) {
                 return $this->write($response, $this->notFound("Chatroom not found"));
             }
             if (!$user) {
                 return $this->write($response, $this->notFound("User not found"));
             }
-            if ($chatroom_instance->setAdmin($chatroom, $user)) {
+            if ($result == 0) {
                 return $this->write($response, $this->result(
                     true,
                     'User has become admin successfully',
@@ -232,6 +234,13 @@ class ChatroomController extends Controller
                         'user' => $user,
                         'chatroom' => $chatroom
                     ]
+                ));
+            } elseif ($result == -1) {
+                return $this->write($response, $this->result(
+                    false,
+                    'User already is Admin',
+                    [],
+                    400
                 ));
             }
             return $this->write($response, $this->result(
