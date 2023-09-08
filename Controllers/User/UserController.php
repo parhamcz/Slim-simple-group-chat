@@ -23,7 +23,7 @@ class UserController extends Controller
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $user = new User($db);
             $users = $user->getAll('users');
-            $this->write($response, $this->result(
+            return $this->write($response, $this->result(
                 true,
                 'Users fetched successfully',
                 $users,
