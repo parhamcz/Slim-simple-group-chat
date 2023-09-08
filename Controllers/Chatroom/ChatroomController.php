@@ -150,6 +150,7 @@ class ChatroomController extends Controller
                     false,
                     "User is already joined",
                     [],
+                    208
                 )
                 );
             }
@@ -182,7 +183,7 @@ class ChatroomController extends Controller
                         false,
                         "User is not in the chatroom",
                         [],
-                        404
+                        208
                     )
                     );
                 }
@@ -240,7 +241,7 @@ class ChatroomController extends Controller
                     false,
                     'User already is Admin',
                     [],
-                    400
+                    208
                 ));
             }
             return $this->write($response, $this->result(
