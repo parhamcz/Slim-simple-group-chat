@@ -14,16 +14,18 @@ class ErrorHandle implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $controller = new Controller();
         $response = $handler->handle($request);
-        // Check if the response body contains 'fatal error'
         $body = (string)$response->getBody();
         if (strpos($body, 'fatal error')) {
-            // Modify the response body to '500'
-            $response = $response->withStatus(500);
             $response->getBody()->rewind();
-            $response->getBody()->write('500');
+            $response = $controller->write($response,$controller->result(
+                false,
+                'Internal Error',
+                [],
+                500
+            ));
         }
-
         return $response;
     }
 }
