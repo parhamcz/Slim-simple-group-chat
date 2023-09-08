@@ -58,7 +58,8 @@ class UserController extends Controller
             $this->write($response, $this->result(
                 true,
                 'User created successfully',
-                $result
+                $result,
+                201
             ));
         } catch (\Exception $e) {
             return $this->write($response, $this->result(
