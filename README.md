@@ -22,4 +22,35 @@ Before getting started with this API server, ensure that you have the following 
 ### 1. Clone the Repository
 
 ```shell
-git clone https://github.com/your-username/group-chat-api.git
+git clone https://github.com/parhamcz/Slim-simple-group-chat.git
+```
+### 2. Change Direction to the cloned repo
+
+```shell
+cd /Slim-simple-group-chat
+```
+### 3. Install Dependencies
+
+```shell
+composer install
+```
+### 4. Configure Database
+***I made the DB manually and it is included in the Repository. You can use the pattern and make it for your own or use the test DB that i put in the repository**
+```shell
+slim-chatroom.db
+```
+### 5. Start the server
+
+```shell
+php -S localhost:8000 -t public public/index.php
+```
+## Installation
+
+### Usage
+To test the APIs, use any tool you want (like postman), you can create user and then for other routes authentication is needed.
+Users must include a "username" heaeder in requests in order to use the routes and the username must be present in DB.
+### Endpoints
+Endpoints can be found in 'routes' folder.
+### Acknowledgments
+**Slim Framework**
+**SQLite**
